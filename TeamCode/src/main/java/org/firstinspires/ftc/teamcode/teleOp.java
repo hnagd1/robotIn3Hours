@@ -8,13 +8,13 @@ public class teleOp extends OpMode {
 
     private DcMotor legie0;
     private DcMotor legie1;
-    private CRServo Armie;
+    private CRServo armie;
 
     @Override
     public void init() {
         legie0 = hardwareMap.get(DcMotor.class, "Motor0");
         legie1 = hardwareMap.get(DcMotor.class, "Motor1");
-        Armie = hardwareMap.get(CRServo.class, "CRServo0");
+        armie = hardwareMap.get(CRServo.class, "CRServo0");
 
         legie0.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         legie1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -36,7 +36,7 @@ public class teleOp extends OpMode {
         }
 
         double armieStick = gamepad1.right_stick_y;
-        Armie.setPower(armieStick);
+        armie.setPower(armieStick);
 
         boolean doADoughnut = gamepad1.a;
         boolean doADonut = gamepad1.b;
@@ -56,6 +56,42 @@ public class teleOp extends OpMode {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+
+            boolean wavie = gamepad1.x;
+            if (wavie) {
+                for (int numbie = 0; numbie < 3; numbie++) {
+                    armie.setPower(0.3);
+                    try {
+                        Thread.sleep(75);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    armie.setPower(-0.3);
+                    try {
+                        Thread.sleep(75);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
         }
     }
 }
+/*
+public class ElliesServo extends OpMode {
+    Servo elliesServo = Servo0;
+
+    @Override
+    public void init () {
+        elliesServo = hardwareMap.get(Servo.class, "Servo0");
+    }
+
+    @Override
+    public void loop () {
+        boolean a = gamepad1.a;
+        if (a) {
+        elliesServo.setPower (0.5);
+        }
+    }
+}
+*/
